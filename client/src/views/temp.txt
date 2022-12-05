@@ -1,0 +1,18 @@
+register
+
+userReg() { //userRegister
+                createUserWithEmailAndPassword(auth, this.email, this.password)
+                .then((userCredential) => {
+                    // Signed in 
+                    // userCredential.user.displayName = this.username;
+                    const user = userCredential.user;
+                    user.
+                    alert("User successfully registered")
+                    this.$router.push('/login')
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+            },
