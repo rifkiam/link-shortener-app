@@ -32,7 +32,7 @@
     export default{
         data() {
             return {
-                domain: 'http://127.0.0.1:5173/',
+                domain: 'http://sew.ey:5173/',
                 realLink: '',
                 customPath: ''
             }
@@ -42,16 +42,20 @@
         },
         methods:
         {
-            async addLink(uid) {
-                uid = localStorage.getItem('userToken')
+            async addLink() {
                 const res = await axios.post("http://localhost:8000/api/addLink", {
                     domain: this.domain,
                     realLink: this.realLink,
                     customPath: this.customPath,
-                    uid: uid
+                    uid: localStorage.getItem('userToken')
                 })
                 .then((response) => {
                     console.log(response.data)
+                    this.$router.push('/dashboard')
+                })
+                .catch((err) => {
+                    console.log("error nambah link")
+                    console.log(err)
                 })
             },
             checkUid() {

@@ -1,4 +1,4 @@
-import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator, increment } from "firebase/firestore";
 import { adminAuth } from "../config/database.js"
 import { auth, db } from "./firebase.js"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
@@ -19,49 +19,57 @@ app.listen(port, () => {
 
 app.get("/api/links", async (req, res) => {
     const uid = req.query.uid
+
+    const links = [];
     try {
-        const links = [];
         const q = query(collection(db, "links"), where("uid", "==", uid));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let data = doc.data();
                 let id = doc.id;
                 links.push({ id, ...data });
-            });
+            })
+            console.log("mau send link")
             res.send(links)
-        });
+        })
     }
     catch (error) {
+        console.log("udah tapi error")
         console.log(error)
     }
 })
 
 app.get("/api/redirectLink", async (req, res) => {
+    console.log("test")
     const url = req.query.url
-    console.log(url)
-    try
-    {
+    let id = ''
+    let click = 0
+    // console.log(url)
+    try {
         const q = query(collection(db, "links"), where("customPath", "==", url))
         onSnapshot(q, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                if (doc == null || doc === null) 
-                {
+            querySnapshot.forEach((docSnap) => {
+                id = docSnap.id
+
+                if (docSnap == null || docSnap === null) {
                     console.log("Cannot find associated link")
                     res.send("Cannot find associated link")
                 }
-                else
-                {
-                    const docData = doc.data()
+                else {
+                    // // const docu = doc(db, "links", id)
+                    const docData = docSnap.data()
+                    click = ++docData.click
                     const link = docData.realLink
                     console.log(link)
-                    // window.location.replace(docData.realLink)
+                    updateDoc(doc(db, "links", id), {
+                        click: click
+                    })
                     res.send(link)
                 }
             });
         })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err)
     }
 })
@@ -72,12 +80,13 @@ app.post("/api/login", async (req, res) => {
     try {
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
+                // console.log(userCredential)
                 userCredential.user.getIdTokenResult()
                     .then((token) => {
                         console.log(token)
                         adminAuth.verifyIdToken(token.token)
                             .then((decodedToken) => {
-                                console.log(decodedToken)
+                                // console.log(decodedToken)
                                 res.send(decodedToken)
                             })
                     })
@@ -89,15 +98,13 @@ app.post("/api/login", async (req, res) => {
 })
 
 app.post("/api/logout", async (req, res) => {
-    try
-    {
-        signOut(auth).then((cons) => {
-            console.log(cons)
-            res.send(cons)
+    try {
+        signOut(auth).then(() => {
+            console.log("berhasil log out")
+            res.send("berhasil log out")
         })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err)
     }
 })
@@ -122,19 +129,24 @@ app.post("/api/addLink", async (req, res) => {
     const realLink = req.body.realLink
     const customPath = req.body.customPath
     const shortenedLink = domain.concat(customPath)
+    console.log(uid)
     console.log(realLink)
     console.log(customPath)
     console.log(shortenedLink)
     try {
-        const docRef = await addDoc(collection(db, "links"), {
+        await addDoc(collection(db, "links"), {
             realLink: realLink,
             customPath: shortenedLink,
-            uid: uid
+            uid: uid,
+            click: 0
         })
-        res.send({message: "Link succesfully added"})
+            .then(async () => {
+                res.send("Link succesfully added")
+            })
     }
     catch (err) {
         console.log(err)
+        res.send(err)
     }
 })
 
@@ -147,10 +159,9 @@ app.post("/api/update", async (req, res) => {
         await updateDoc(docRef, {
             customPath: newCustomPath
         })
-        res.send({message: "Succesfully edited"})
+        res.send({ message: "Succesfully edited" })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err)
     }
 })

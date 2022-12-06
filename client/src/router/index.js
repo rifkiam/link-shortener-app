@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 import AddLink from '../views/AddLink.vue'
 import Redirect from '../views/Redirect.vue'
 import NotFound from '../views/NotFound.vue'
 import LogOut from '../views/LogOut.vue'
 import Update from '../views/Update.vue'
+import NewLogin from '../views/newLogin.vue'
+import NewRegister from '../views/newRegister.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,12 +20,12 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: NewLogin
     },
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: NewRegister
     },
     {
       path: '/dashboard',
@@ -55,7 +55,15 @@ const router = createRouter({
       path: "/logout",
       name: "logout",
       component: LogOut
-    }
+    },
+    // {
+    //   path: "/newLogin",
+    //   component: NewLogin
+    // },
+    // {
+    //   path: "/newRegister",
+    //   component: NewRegister
+    // }
     // {
     //   path: '/about',
     //   name: 'about',

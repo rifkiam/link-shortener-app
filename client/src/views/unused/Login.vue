@@ -1,8 +1,9 @@
 <script setup>
     import Navbar from '../components/Navbar.vue';
 </script>
+
 <template>
-    <Navbar />
+    <!-- <Navbar /> -->
     <div class="container mx-auto px-72">
         <div class="w-full h-80 border mt-16 rounded-lg bg-red-500 overflow-clip">
             <div class="">
@@ -40,6 +41,9 @@
         beforeMount() {
             this.check()
         },
+        mounted() {
+            console.log(localStorage.getItem('userToken'))
+        },
         methods:
         {
             async userLogin() {  
@@ -50,7 +54,9 @@
                 .then((response)=>{
                     console.log(response)
                     const userId = response.data.uid
+                    const userEmail = response.data.email
                     localStorage.setItem('userToken', userId)
+                    localStorage.setItem('userEmail', userEmail)
                     this.$router.push("/dashboard")
                 })
             },

@@ -31,10 +31,7 @@
 </template>
 
 <script>
-    // import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-    // import { auth } from "../firebase.js"
     import axios from 'axios'
-    // import firebase from 'firebase/compat/app';
 
     export default {
         data() {

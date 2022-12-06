@@ -3,17 +3,18 @@
 </script>
 <template>
     <Navbar />
-    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover">
+    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-fixed bg-cover bg-no-repeat">
         <div class="flex-1 flex items-center justify-center">
             <div class="mt-10">
-                <h1 class="text-3xl text-center text-600 font-semibold mb-6 text-white">
+                <h1 class="text-3xl text-center text-600 font-semibold mb-12 text-white">
                     Your Links
                 </h1>
-                <div v-for="link in links" :key="link" class="border-2 rounded-lg border-red-500 bg-red-500 py-2 px-2 w-[50rem] mb-2">
+                <button @click="this.$router.push('/create')" class="text-white bg-white/30 text-lg px-3 py-1.5 rounded-lg font-semibold">Add Link</button>
+                <div v-for="link in links" :key="link" class="rounded-lg bg-white/30 backdrop-blur-lg py-2 px-2 w-[50rem] my-3">
                     <div class="flex items-center">
                         <div class="container flex flex-wrap justify-between items-center mx-auto">
-                            <h2 class="flex-shrink-0 bg-red-500 border-red-500 text-base font-semibold border-4 text-white py-1 px-2 rounded">{{ link.customPath }}</h2>
-                            <p class="flex-shrink-0 bg-red-500 border-red-500 text-base font-semibold border-4 text-white py-1 px-2 rounded">{{ link.realLink }}</p>
+                            <h2 class="text-base font-semibold text-white my-1 mx-2 rounded">{{ link.customPath }}</h2>
+                            <p class="text-base font-semibold text-white my-1 mx-2 rounded">{{ link.realLink }}</p>
                             <!-- <p class="flex-shrink-0 bg-red-500 border-red-500 text-base font-semibold border-4 text-white py-1 px-2 rounded">{{ link.id }}</p> -->
                         </div>
                         <button v-if="!link.showForm" @click="link.showForm = !link.showForm" class="bg-white px-2 py-1 rounded-md text-red-500 font-medium mr-3">Edit</button>
@@ -23,11 +24,11 @@
                         <div class="flex justify-between px-3 pb-2">
                             <div>
                                 <label for="" class="text-white font-medium">Custom Link</label><br>
-                                <input type="text">
+                                <input type="text" class="rounded">
                             </div>
                             <div>
                                 <label for="" class="text-white font-medium">Real Link</label><br>
-                                <input type="text">
+                                <input type="text" class="rounded">
                             </div>
                         </div>
                         <div class="px-3 gap-2">
@@ -56,6 +57,7 @@
             }
         },
         mounted() {
+            // console.log(localStorage.getItem('userToken'))
             this.getLinks()
         },
         beforeMount() {
@@ -64,15 +66,19 @@
         methods:
         {
             async getLinks() {
-                const userUid = localStorage.getItem('userToken')
                 const res = await axios.get("http://localhost:8000/api/links", {
-                    params: { uid: userUid }
+                    params: { uid: localStorage.getItem('userToken')}
                 })
                 .then((response)=>{
-                    // console.log(response)
+                    console.log(response)
                     const links = response.data
                     console.log(this.links)
                     this.links.push(...response.data)
+                    console.log("berhasil ges")
+                })
+                .catch((err) => {
+                    console.log("error ngepush link ke array")
+                    console.log(err)
                 })
             },
             
@@ -84,7 +90,8 @@
                 })
             },
             checkUid() {
-                if (localStorage.getItem('userToken') == null || localStorage.getItem('userToken') == '') {
+                if (localStorage.getItem('userToken') == null || localStorage.getItem('userToken') == '')
+                {
                     this.$router.push('/login')
                 }
                 else
