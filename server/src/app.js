@@ -1,4 +1,4 @@
-import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator, increment } from "firebase/firestore";
+import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator, increment, getDocs } from "firebase/firestore";
 import { adminAuth } from "../config/database.js"
 import { auth, db } from "./firebase.js"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
@@ -19,23 +19,21 @@ app.listen(port, () => {
 
 app.get("/api/links", async (req, res) => {
     const uid = req.query.uid
-
-    const links = [];
+    let links = [];
     try {
         const q = query(collection(db, "links"), where("uid", "==", uid));
-        onSnapshot(q, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                let id = doc.id;
-                links.push({ id, ...data });
-            })
-            console.log("mau send link")
-            res.send(links)
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+            let data = docSnap.data();
+            let id = docSnap.id;
+            links.push({ id, ...data });
         })
+        res.send(links)
     }
     catch (error) {
         console.log("udah tapi error")
         console.log(error)
+        res.send(error)
     }
 })
 
@@ -56,9 +54,8 @@ app.get("/api/redirectLink", async (req, res) => {
                     res.send("Cannot find associated link")
                 }
                 else {
-                    // // const docu = doc(db, "links", id)
                     const docData = docSnap.data()
-                    click = ++docData.click
+                    click = parseInt(docData.click)
                     const link = docData.realLink
                     console.log(link)
                     updateDoc(doc(db, "links", id), {
@@ -71,6 +68,7 @@ app.get("/api/redirectLink", async (req, res) => {
     }
     catch (err) {
         console.log(err)
+        res.send(err)
     }
 })
 
@@ -99,13 +97,14 @@ app.post("/api/login", async (req, res) => {
 
 app.post("/api/logout", async (req, res) => {
     try {
-        signOut(auth).then(() => {
+        await signOut(auth).then(() => {
             console.log("berhasil log out")
             res.send("berhasil log out")
         })
     }
     catch (err) {
         console.log(err)
+        res.send(err)
     }
 })
 
@@ -140,7 +139,7 @@ app.post("/api/addLink", async (req, res) => {
             uid: uid,
             click: 0
         })
-            .then(async () => {
+            .then(() => {
                 res.send("Link succesfully added")
             })
     }
@@ -163,5 +162,6 @@ app.post("/api/update", async (req, res) => {
     }
     catch (err) {
         console.log(err)
+        res.send(err)
     }
 })

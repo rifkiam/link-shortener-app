@@ -3,7 +3,7 @@
 </script>
 <template>
     <Navbar />
-    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-fixed bg-cover bg-no-repeat">
+    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover bg-no-repeat">
         <div class="flex-1 flex items-center justify-center">
             <div class="mt-10">
                 <h1 class="text-3xl text-center text-600 font-semibold mb-12 text-white">
@@ -17,7 +17,7 @@
                             <p class="text-base font-semibold text-white my-1 mx-2 rounded">{{ link.realLink }}</p>
                             <!-- <p class="flex-shrink-0 bg-red-500 border-red-500 text-base font-semibold border-4 text-white py-1 px-2 rounded">{{ link.id }}</p> -->
                         </div>
-                        <button v-if="!link.showForm" @click="link.showForm = !link.showForm" class="bg-white px-2 py-1 rounded-md text-red-500 font-medium mr-3">Edit</button>
+                        <button v-if="!link.showForm" @click="link.showForm = !link.showForm" class="bg-white px-2 py-1 rounded-md text-gray-900 font-medium mr-3">Edit</button>
                         <button @click="deleteLink(link.uid)" class=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#FFFFFF" d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/></svg></button>
                     </div>
                     <div v-if="link.showForm" class="pt-3">
@@ -72,8 +72,8 @@
                 .then((response)=>{
                     console.log(response)
                     const links = response.data
-                    console.log(this.links)
                     this.links.push(...response.data)
+                    console.log(this.links)
                     console.log("berhasil ges")
                 })
                 .catch((err) => {
@@ -81,14 +81,14 @@
                     console.log(err)
                 })
             },
-            
+        
+            // async updateItem(uid) {
+            //     const res = await axios.post("http://localhost:8000/api/update", {
+            //         newCustomPath: this.newCustomPath,
+            //         uid: this.uid
+            //     })
+            // },
 
-            async updateItem(uid) {
-                const res = await axios.post("http://localhost:8000/api/update", {
-                    newCustomPath: this.newCustomPath,
-                    uid: this.uid
-                })
-            },
             checkUid() {
                 if (localStorage.getItem('userToken') == null || localStorage.getItem('userToken') == '')
                 {

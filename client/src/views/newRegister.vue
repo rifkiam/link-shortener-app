@@ -35,7 +35,7 @@
                     <input @click="userReg" type="submit" value="Register" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8" />
                 </form>
                 <div class="text-center pt-12 pb-12">
-                    <p>Already have an account? <a href="newLogin" class="underline font-semibold">Log in here.</a></p>
+                    <p>Already have an account? <a href="/login" class="underline font-semibold">Log in here.</a></p>
                 </div>
             </div>
 

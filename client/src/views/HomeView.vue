@@ -10,10 +10,10 @@
             </div>
 
             <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-                <p class="text-center text-3xl">Welcome to Sewey Link Shrinker App</p>
+                <p class="text-center text-3xl font-medium">Welcome to Sewey Link Shrinker App</p>
                 
                 <div class="text-center pt-12 pb-12">
-                    <p>Already have an account? <a href="newLogin" class="underline font-semibold">Log in here.</a></p>
+                    <p>Already have an account? <a href="/login" class="underline font-semibold visited:text-fuchsia-900">Log in here.</a></p>
                 </div>
             </div>
 
