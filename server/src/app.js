@@ -156,15 +156,32 @@ app.post("/api/addLink", async (req, res) => {
 })
 
 app.post("/api/update", async (req, res) => {
+    
     const newCustomPath = req.body.newCustomPath
-    const uid = req.body.uid
-    const docRef = doc(db, "links", uid)
+    const newRealLink = req.body.newRealLink
+    const id = req.body.id
+    const docRef = doc(db, "links", id)
 
     try {
         await updateDoc(docRef, {
-            customPath: newCustomPath
+            customPath: "http://sew.ey:5173/" + newCustomPath,
+            realLink: newRealLink
         })
         res.send({ message: "Succesfully edited" })
+    }
+    catch (err) {
+        console.log(err)
+        res.send(err)
+    }
+})
+
+app.post("/api/delete", async (req, res) => {
+    const id = req.body.id
+    const docRef = doc(db, "links", id)
+
+    try {
+        await deleteDoc(docRef)
+        res.send({ message: "Succesfully deleted" })
     }
     catch (err) {
         console.log(err)
