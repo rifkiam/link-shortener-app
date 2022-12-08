@@ -3,7 +3,7 @@
 </script>
 <template>
     <Navbar />
-    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover bg-no-repeat">
+    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover bg-no-repeat bg-fixed">
         <div class="flex-1 flex items-center justify-center">
             <div class="mt-10">
                 <h1 class="text-3xl text-center text-600 font-semibold mb-12 text-white">

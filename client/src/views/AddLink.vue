@@ -4,25 +4,22 @@
 
 <template>
     <Navbar />
-    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover bg-no-repeat">
-        <div class="flex-1 flex items-center justify-center align-middle h-full">
-            <div class="border rounded-lg bg-red-500 overflow-clip">
-                <div class="">
-                    <h2 class="text-white text-lg font-semibold mx-8">Shorten a Link</h2>
-                </div>
-                <div class="h-full bg-white">
-                    <div class="h-3/4 bg-white px-8 py-6">
-                        <div>
-                            <label for="real-link" class="font-medium text-lg">Real Link</label><br>
-                            <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
-                        </div>
-                        <div class="mt-4">
-                            <label for="custom-path" class="font-medium text-lg">Custom Path</label><br>
-                            <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
-                        </div>
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4 font-medium" @click="addLink">Shrink!</button>
-                    </div>
-                </div>
+    <div class="flex-1 flex items-center justify-center h-screen w-full bg-[url('/assets/seweybg.jpg')] text-white bg-cover bg-fixed">
+        <div class="">
+            <h1 class="text-6xl text-center text-600 font-semibold mb-12 text-white">
+                    Shorten a Link
+            </h1>
+            <label for="real-link" class="font-medium text-2xl">Real Link</label><br>
+            <div class="flex items-center rounded-lg bg-red-500 py-2 px-2 w-[35rem] mt-3 mb-5">
+                <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-white" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
+            </div>
+            <label for="custom-path" class="font-medium text-2xl">Custom Path</label><br>
+            <div class="flex items-center rounded-lg bg-red-500 py-2 px-4 w-[35rem] mt-3 mb-5">
+                <p class="font-medium">sew.ey/</p>
+                <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-white" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
+            </div>
+            <div>
+                <button type="submit" class="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-xs border-4 text-white py-2 px-4 rounded text-[18px] font-semibold" @click="addLink">Shrink!</button>
             </div>
         </div>
     </div>
