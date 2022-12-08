@@ -4,22 +4,24 @@
 
 <template>
     <Navbar />
-    <div class="container mx-auto px-72">
-        <div class="w-full h-80 border mt-16 rounded-lg bg-red-500 overflow-clip">
-            <div class="">
-                <h2 class="text-white text-lg font-semibold mx-8 my-6">Shorten a Link</h2>
-            </div>
-            <div class="w-full h-full bg-white">
-                <div class="h-3/4 bg-white px-8 py-6">
-                    <div>
-                        <label for="real-link" class="font-medium text-lg">Real Link</label><br>
-                        <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
+    <div class="h-screen w-full bg-[url('/assets/seweybg.jpg')] bg-cover bg-no-repeat">
+        <div class="flex-1 flex items-center justify-center align-middle h-full">
+            <div class="border rounded-lg bg-red-500 overflow-clip">
+                <div class="">
+                    <h2 class="text-white text-lg font-semibold mx-8">Shorten a Link</h2>
+                </div>
+                <div class="h-full bg-white">
+                    <div class="h-3/4 bg-white px-8 py-6">
+                        <div>
+                            <label for="real-link" class="font-medium text-lg">Real Link</label><br>
+                            <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
+                        </div>
+                        <div class="mt-4">
+                            <label for="custom-path" class="font-medium text-lg">Custom Path</label><br>
+                            <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
+                        </div>
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4 font-medium" @click="addLink">Shrink!</button>
                     </div>
-                    <div class="mt-4">
-                        <label for="custom-path" class="font-medium text-lg">Custom Path</label><br>
-                        <input class="border mt-1.5 rounded focus:outline-red-400" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
-                    </div>
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4 font-medium" @click="addLink">Shrink!</button>
                 </div>
             </div>
         </div>

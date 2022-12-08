@@ -1,4 +1,4 @@
-import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator, increment, getDocs } from "firebase/firestore";
+import { getFirestore, query, collection, doc, onSnapshot, addDoc, deleteDoc, updateDoc, where, connectFirestoreEmulator, increment, getDocs, getDoc } from "firebase/firestore";
 import { adminAuth } from "../config/database.js"
 import { auth, db } from "./firebase.js"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
@@ -42,29 +42,32 @@ app.get("/api/redirectLink", async (req, res) => {
     const url = req.query.url
     let id = ''
     let click = 0
+    let realLink = ''
     // console.log(url)
     try {
-        const q = query(collection(db, "links"), where("customPath", "==", url))
-        onSnapshot(q, (querySnapshot) => {
-            querySnapshot.forEach((docSnap) => {
-                id = docSnap.id
-
-                if (docSnap == null || docSnap === null) {
-                    console.log("Cannot find associated link")
-                    res.send("Cannot find associated link")
-                }
-                else {
-                    const docData = docSnap.data()
-                    click = parseInt(docData.click)
-                    const link = docData.realLink
-                    console.log(link)
-                    updateDoc(doc(db, "links", id), {
-                        click: click
-                    })
-                    res.send(link)
-                }
-            });
-        })
+        const q = query(collection(db, "links"), where("customPath", "==", url));
+        console.log("masuk try")
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+            id = docSnap.id
+            if (docSnap == null || docSnap === null) {
+                console.log("Cannot find associated link")
+                res.send("Cannot find associated link")
+            }
+            else {
+                const docData = docSnap.data()
+                click = parseInt(docData.click)
+                realLink = docData.realLink
+                console.log(click)
+                console.log(realLink)
+                console.log(id)
+                updateDoc(doc(db, "links", id), {
+                    click: click + 1
+                })
+                console.log(click)
+            }
+        });
+        res.send(realLink)
     }
     catch (err) {
         console.log(err)
@@ -78,16 +81,18 @@ app.post("/api/login", async (req, res) => {
     try {
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // console.log(userCredential)
                 userCredential.user.getIdTokenResult()
                     .then((token) => {
                         console.log(token)
                         adminAuth.verifyIdToken(token.token)
                             .then((decodedToken) => {
-                                // console.log(decodedToken)
                                 res.send(decodedToken)
                             })
                     })
+            })
+            .catch((err) => {
+                console.log(err)
+                res.send(err)
             })
     }
     catch (err) {
@@ -137,11 +142,12 @@ app.post("/api/addLink", async (req, res) => {
             realLink: realLink,
             customPath: shortenedLink,
             uid: uid,
-            click: 0
+            click: 0,
+            showForm: false
         })
-            .then(() => {
-                res.send("Link succesfully added")
-            })
+        .then(() => {
+            res.send("Link succesfully added")
+        })
     }
     catch (err) {
         console.log(err)

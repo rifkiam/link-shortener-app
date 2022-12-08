@@ -29,23 +29,6 @@
                 .then((response)=>{
                     window.location.replace(response.data)
                 })
-                // const q = query(collection(db, "links"), where("customPath", "==", this.url))
-                // onSnapshot(q, (querySnapshot) => {
-                //     console.log(querySnapshot)
-                //     querySnapshot.forEach((doc) => {
-                //         if (doc == null || doc === null) 
-                //         {
-                //             this.$router.push('/')
-                //         }
-                //         else
-                //         {
-                //             const docData = doc.data()
-                //             console.log(docData)
-                //             window.location.replace(docData.realLink)
-                //         }
-                //     });
-                // });
-                // console.log(q)
             }
         }
     }

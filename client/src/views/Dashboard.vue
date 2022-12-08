@@ -70,10 +70,10 @@
                     params: { uid: localStorage.getItem('userToken')}
                 })
                 .then((response)=>{
-                    console.log(response)
+                    // console.log(response)
                     const links = response.data
                     this.links.push(...response.data)
-                    console.log(this.links)
+                    // console.log(this.links)
                     console.log("berhasil ges")
                 })
                 .catch((err) => {

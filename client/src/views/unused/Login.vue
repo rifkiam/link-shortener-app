@@ -33,7 +33,7 @@
     export default{
         data() {
             return{
-                name: '',
+                // name: '',
                 email: '',
                 password: ''
             }
@@ -46,18 +46,22 @@
         },
         methods:
         {
-            async userLogin() {  
+            async userLogin() { 
+                let benar = false 
                 const res = await axios.post("http://localhost:8000/api/login", {
                     email: this.email,
                     password: this.password
                 })
                 .then((response)=>{
-                    console.log(response)
+                    console.log(response.data)
                     const userId = response.data.uid
                     const userEmail = response.data.email
                     localStorage.setItem('userToken', userId)
                     localStorage.setItem('userEmail', userEmail)
                     this.$router.push("/dashboard")
+                })
+                .catch((response) => {
+                    console.log(response.data.code)
                 })
             },
             check() {

@@ -5,7 +5,7 @@ import AddLink from '../views/AddLink.vue'
 import Redirect from '../views/Redirect.vue'
 import NotFound from '../views/NotFound.vue'
 import LogOut from '../views/LogOut.vue'
-import Update from '../views/Update.vue'
+// import Update from '../views/Update.vue'
 import NewLogin from '../views/newLogin.vue'
 import NewRegister from '../views/newRegister.vue'
 
@@ -35,11 +35,6 @@ const router = createRouter({
     {
       path: '/create',
       component: AddLink
-    },
-    {
-      path: '/update/:uid',
-      name: 'update',
-      component: Update
     },
     {
       path: '/:customPath',

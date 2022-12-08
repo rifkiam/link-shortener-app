@@ -21,14 +21,13 @@
                         <label for="password" class="text-lg">Password</label>
                         <input v-model="password" type="password" id="password" placeholder="Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-    
+                    <h3 id="validation" class="text-red-500"></h3>
                     <input @click="userLogin" type="submit" value="Log In" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">
                 </form>
                 <div class="text-center pt-12 pb-12">
                     <p>Don't have an account? <a href="/register" class="underline font-semibold">Register here.</a></p>
                 </div>
             </div>
-
         </div>
 
         <!-- Image Section -->
@@ -54,8 +53,7 @@
             this.check()
         },
         mounted() {
-            // console.log(localStorage.getItem('userToken'))
-            // this.check()
+            setTimeout(() => {document.getElementById('validation').innerHTML}, 750)
         },
         methods:
         {
@@ -69,9 +67,21 @@
                     console.log(response)
                     const userId = response.data.uid
                     const userEmail = response.data.email
-                    localStorage.setItem('userToken', userId)
-                    localStorage.setItem('userEmail', userEmail)
-                    this.$router.push("/dashboard")
+                    if(response.data.code == "auth/wrong-password")
+                    {
+                        this.$router.push("/login")
+                        document.getElementById('validation').innerHTML = "Wrong password"
+                    }
+                    else
+                    {
+                        localStorage.setItem('userToken', userId)
+                        localStorage.setItem('userEmail', userEmail)
+                        this.$router.push("/dashboard")
+                    }
+
+                })
+                .catch((err) => {
+                    console.log(err)
                 })
             },
             check() {
