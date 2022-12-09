@@ -38,7 +38,6 @@ app.get("/api/links", async (req, res) => {
 })
 
 app.get("/api/redirectLink", async (req, res) => {
-    console.log("test")
     const url = req.query.url
     let id = ''
     let click = 0

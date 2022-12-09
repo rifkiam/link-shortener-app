@@ -14,15 +14,15 @@
                 <form class="flex flex-col pt-3 md:pt-8" onsubmit="event.preventDefault();">
                     <div class="flex flex-col pt-4">
                         <label for="email" class="text-lg">Email</label>
-                        <input v-model="email" type="email" id="email" placeholder="your@email.com" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="email" type="email" id="email" placeholder="your@email.com" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
     
                     <div class="flex flex-col pt-4">
                         <label for="password" class="text-lg">Password</label>
-                        <input v-model="password" type="password" id="password" placeholder="Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="password" type="password" id="password" placeholder="Password" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-                    <h3 id="validation" class="text-red-500"></h3>
-                    <input @click="userLogin" type="submit" value="Log In" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">
+                    <h3 id="validation" class="text-red-500 mt-2"></h3>
+                    <input @click="userLogin" type="submit" value="Log In" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 transition ease-in-out duration-[150ms]">
                 </form>
                 <div class="text-center pt-12 pb-12">
                     <p>Don't have an account? <a href="/register" class="underline font-semibold">Register here.</a></p>
@@ -53,7 +53,7 @@
             this.check()
         },
         mounted() {
-            setTimeout(() => {document.getElementById('validation').innerHTML}, 750)
+            setTimeout(() => {document.getElementById('validation').innerHTML = ''}, 750)
         },
         methods:
         {
@@ -71,6 +71,21 @@
                     {
                         this.$router.push("/login")
                         document.getElementById('validation').innerHTML = "Wrong password"
+                    }
+                    else if (response.data.code == "auth/user-not-found")
+                    {
+                        this.$router.push("/login")
+                        document.getElementById('validation').innerHTML = "No registered email found"
+                    }
+                    else if (response.data.code == "auth/network-request-failed")
+                    {
+                        this.$router.push("/login")
+                        document.getElementById('validation').innerHTML = "No internet connection"
+                    }
+                    else if (response.data.code == "auth/invalid-email")
+                    {
+                        this.$router.push("/login")
+                        document.getElementById('validation').innerHTML = "Invalid email"
                     }
                     else
                     {

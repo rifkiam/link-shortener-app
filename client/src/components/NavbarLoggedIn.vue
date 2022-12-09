@@ -8,7 +8,7 @@
             </a>
           </div>
           <div class="pr-6">
-            <button class="text-sm px-4 py-2 border rounded text-white font-medium bg-gray-900 hover:border-transparent hover:text-red-500 hover:bg-white" @click="logOut">Logout</button>
+            <button class="text-sm px-4 py-2 border rounded text-white font-medium bg-gray-900 hover:border-transparent hover:text-gray-800 hover:font-semibold hover:bg-white transition ease-in-out duration-[250ms]" @click="logOut">Logout</button>
           </div>
         </div>
       </nav>

@@ -7,17 +7,19 @@
     <div class="flex-1 flex items-center justify-center h-screen w-full bg-[url('/assets/seweybg.jpg')] text-white bg-cover bg-fixed">
         <div class="">
             <h1 class="text-6xl text-center text-600 font-semibold mb-12 text-white">
-                    Shorten a Link
+                Shorten a Link
             </h1>
             <label for="real-link" class="font-medium text-2xl">Real Link</label><br>
             <div class="flex items-center rounded-lg bg-red-500 py-2 px-2 w-[35rem] mt-3 mb-5">
-                <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-white" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
+                <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-red-400/95" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
             </div>
+            
             <label for="custom-path" class="font-medium text-2xl">Custom Path</label><br>
             <div class="flex items-center rounded-lg bg-red-500 py-2 px-4 w-[35rem] mt-3 mb-5">
-                <p class="font-medium">sew.ey/</p>
-                <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-white" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
+                <p class="font-medium">sew.ey:5173/</p>
+                <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-red-400/95" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
             </div>
+            
             <div>
                 <button type="submit" class="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-xs border-4 text-white py-2 px-4 rounded text-[18px] font-semibold" @click="addLink">Shrink!</button>
             </div>
@@ -42,6 +44,17 @@
         methods:
         {
             async addLink() {
+                // var realLinkInput = document.getElementById('real-link').value
+                let result = this.realLink.includes("https://")
+                if (result == false) {
+                    this.$router.push('/create')
+                    document.getElementById('validation').innerHTML = "Please enter a valid URL"
+                }
+                else 
+                {
+
+                }
+
                 const res = await axios.post("http://localhost:8000/api/addLink", {
                     domain: this.domain,
                     realLink: this.realLink,

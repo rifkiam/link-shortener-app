@@ -18,7 +18,6 @@
         data() {
             return {
                 url: window.location.href,
-                text: ''
             }
         },
         methods: {
