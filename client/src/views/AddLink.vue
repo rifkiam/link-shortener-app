@@ -10,10 +10,10 @@
                 Shorten a Link
             </h1>
             <label for="real-link" class="font-medium text-2xl">Real Link</label><br>
-            <div class="flex items-center rounded-lg bg-white/30 hover:bg-white/20 border transition ease-in-out duration-[150ms] focus:bg-white/20 border-red-500/40 py-2 px-2 w-[35rem] mt-3 mb-5">
+            <div class="flex items-center rounded-lg bg-white/30 hover:bg-white/20 border transition ease-in-out duration-[150ms] focus:bg-white/20 border-red-500/40 py-2 px-2 w-[35rem] mt-3 mb-1">
                 <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-white" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
             </div>
-            
+            <div id="validation" class="text-white mb-5"></div>
             <label for="custom-path" class="font-medium text-2xl">Custom Path</label><br>
             <div class="flex items-center rounded-lg bg-white/30 hover:bg-white/20 border transition ease-in-out duration-[150ms] focus:bg-white/20 border-red-500/40 py-2 px-4 w-[35rem] mt-3 mb-5">
                 <p class="font-medium">sew.ey:5173/</p>
@@ -48,27 +48,27 @@
                 let result = this.realLink.includes("https://")
                 if (result == false) {
                     this.$router.push('/create')
-                    document.getElementById('validation').innerHTML = "Please enter a valid URL"
+                    document.getElementById('validation').innerHTML = "Please enter a valid URL (include a https:// in the beginning of the link)"
                 }
                 else 
                 {
+                    const res = await axios.post("http://localhost:8000/api/addLink", {
+                        domain: this.domain,
+                        realLink: this.realLink,
+                        customPath: this.customPath,
+                        uid: localStorage.getItem('userToken')
+                    })
+                    .then((response) => {
+                        console.log(response.data)
+                        this.$router.push('/dashboard')
+                    })
+                    .catch((err) => {
+                        console.log("error nambah link")
+                        console.log(err)
+                    })
                     
                 }
 
-                const res = await axios.post("http://localhost:8000/api/addLink", {
-                    domain: this.domain,
-                    realLink: this.realLink,
-                    customPath: this.customPath,
-                    uid: localStorage.getItem('userToken')
-                })
-                .then((response) => {
-                    console.log(response.data)
-                    this.$router.push('/dashboard')
-                })
-                .catch((err) => {
-                    console.log("error nambah link")
-                    console.log(err)
-                })
             },
             checkUid() {
                 if (localStorage.getItem('userToken') == null || localStorage.getItem('userToken') == '') {
