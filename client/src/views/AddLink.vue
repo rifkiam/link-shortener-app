@@ -10,18 +10,18 @@
                 Shorten a Link
             </h1>
             <label for="real-link" class="font-medium text-2xl">Real Link</label><br>
-            <div class="flex items-center rounded-lg bg-red-500 py-2 px-2 w-[35rem] mt-3 mb-5">
-                <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-red-400/95" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
+            <div class="flex items-center rounded-lg bg-white/30 hover:bg-white/20 border transition ease-in-out duration-[150ms] focus:bg-white/20 border-red-500/40 py-2 px-2 w-[35rem] mt-3 mb-5">
+                <input class="appearance-none bg-transparent border-none w-full text-white mx-2 leading-tight focus:outline-none placeholder-white" type="text" id="real-link" placeholder="Place the link you want to redirect" v-model="realLink">
             </div>
             
             <label for="custom-path" class="font-medium text-2xl">Custom Path</label><br>
-            <div class="flex items-center rounded-lg bg-red-500 py-2 px-4 w-[35rem] mt-3 mb-5">
+            <div class="flex items-center rounded-lg bg-white/30 hover:bg-white/20 border transition ease-in-out duration-[150ms] focus:bg-white/20 border-red-500/40 py-2 px-4 w-[35rem] mt-3 mb-5">
                 <p class="font-medium">sew.ey:5173/</p>
-                <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-red-400/95" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
+                <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-white" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
             </div>
             
             <div>
-                <button type="submit" class="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-xs border-4 text-white py-2 px-4 rounded text-[18px] font-semibold" @click="addLink">Shrink!</button>
+                <button type="submit" class="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-xs border-4 text-white py-2 px-4 rounded text-[18px] font-semibold transition ease-in-out duration-[150ms]" @click="addLink">Shrink!</button>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 }
                 else 
                 {
-
+                    
                 }
 
                 const res = await axios.post("http://localhost:8000/api/addLink", {

@@ -4,8 +4,7 @@
         <!-- Login Section -->
         <div class="w-full md:w-2/5 flex flex-col">
 
-            <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-                <!-- <a href="#" class="bg-black text-white font-bold text-xl p-4">Logo</a> -->
+            <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-12">
                 <a href="/" class="bg-black block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white font-semibold text-2xl p-4">Sew.ey</a>
             </div>
 
@@ -93,7 +92,6 @@
                         localStorage.setItem('userEmail', userEmail)
                         this.$router.push("/dashboard")
                     }
-
                 })
                 .catch((err) => {
                     console.log(err)

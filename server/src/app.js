@@ -20,15 +20,18 @@ app.listen(port, () => {
 app.get("/api/links", async (req, res) => {
     const uid = req.query.uid
     let links = [];
+    let click = 0;
     try {
         const q = query(collection(db, "links"), where("uid", "==", uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((docSnap) => {
             let data = docSnap.data();
             let id = docSnap.id;
+            console.log(data)
+            click += data.click
             links.push({ id, ...data });
         })
-        res.send(links)
+        res.send({links: links, clicks: click})
     }
     catch (error) {
         console.log("udah tapi error")
@@ -42,10 +45,8 @@ app.get("/api/redirectLink", async (req, res) => {
     let id = ''
     let click = 0
     let realLink = ''
-    // console.log(url)
     try {
         const q = query(collection(db, "links"), where("customPath", "==", url));
-        console.log("masuk try")
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((docSnap) => {
             id = docSnap.id
