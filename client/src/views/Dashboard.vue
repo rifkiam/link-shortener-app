@@ -31,7 +31,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="scale-110 ml-1 fill-white hover:fill-gray-400 transition ease-in-out duration-[250ms]"><path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/></svg>
                         </button>
                         <div v-bind:id="'tooltip-left-'+link.id" role="tooltip" class="inline-block absolute invisible hover:visible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            <div>{{link.click}}</div>
+                            <div>Click count: {{link.click}}</div>
                             <!-- <div class="tooltip-arrow" data-popper-arrow></div> -->
                         </div>
                         <div class="container flex flex-wrap justify-between items-center mx-auto">
@@ -93,7 +93,7 @@
         methods:
         {
             async getLinks() {
-                this.links = []
+                // this.links = []
                 const res = await axios.get("http://localhost:8000/api/links", {
                     params: { uid: localStorage.getItem('userToken')}
                 })
@@ -110,12 +110,12 @@
                     console.log(err)
                 })
             },
-        
+            
             async updateItem(id, customPath, realLink) {
                 console.log(customPath)
                 console.log(realLink)
                 if (this.newCustomPath == '') {
-                    this.newCustomPath = customPath.replace("http://sew.ey:5173/")
+                    this.newCustomPath = customPath.replace("http://sew.ey:5173/", "")
                 }
                 if (this.newRealLink == '') {
                     this.newRealLink = realLink
