@@ -19,7 +19,7 @@
                 <p class="font-medium">sew.ey:5173/</p>
                 <input class="appearance-none bg-transparent border-none w-full text-white ml-2 leading-tight focus:outline-none placeholder-white" type="text" id="custom-path" placeholder="Write the custom route" v-model="customPath">
             </div>
-            
+            <div id="validation2" class="text-white mb-5"></div>
             <div>
                 <button type="submit" class="flex-shrink-0 bg-red-500 hover:bg-red-700 border-red-500 hover:border-red-700 text-xs border-4 text-white py-2 px-4 rounded text-[18px] font-semibold transition ease-in-out duration-[150ms]" @click="addLink">Shrink!</button>
             </div>
@@ -49,6 +49,16 @@
                 if (result == false) {
                     this.$router.push('/create')
                     document.getElementById('validation').innerHTML = "Please enter a valid URL (include a https:// in the beginning of the link)"
+                }
+                else if (this.customPath == '')
+                {
+                    this.$router.push('/create')
+                    document.getElementById('validation2').innerHTML = "Please enter a string or two"
+                }
+                else if(document.getElementById('custom-path').value.length < 6)
+                {
+                    this.$router.push('/create')
+                    document.getElementById('validation2').innerHTML = "Please enter a minimal of 6 characters"
                 }
                 else 
                 {
